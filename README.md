@@ -1,126 +1,95 @@
-# E-Commerce Sales Analysis
-### Business Analyst Portfolio Project | SQL · Excel · Power BI · BPMN
+# 📊 E-Commerce Sales Analysis
+### Business Analyst Portfolio Project
+
+![SQL](https://img.shields.io/badge/SQL-SQLite-blue?logo=sqlite&logoColor=white)
+![PowerBI](https://img.shields.io/badge/Power%20BI-DAX-yellow?logo=powerbi&logoColor=black)
+![Excel](https://img.shields.io/badge/Excel-Data%20Cleaning-green?logo=microsoftexcel&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
 
 ---
 
-## Overview
+## 📌 Business Problem
 
-This project analyses the Superstore Sales dataset (9,994 rows) to identify which product categories,
-regions, and customer segments drive profit vs. loss — and to provide data-backed recommendations to
-improve overall profitability.
+> *"We are generating significant revenue but do not know which products and regions are eroding our margins. Discount decisions are made ad hoc, costing the business an estimated $18K+ per year in recoverable profit."*
 
-**Key Business Finding:** The West region contributes ~32% of total sales but only ~18% of total profit
-due to excessive Technology discounting. A discount cap policy is projected to recover **$18,000 in annual profit**.
+**Dataset:** Superstore Sales | 9,994 rows | 4 Regions | 3 Categories | 17 Sub-Categories
 
 ---
 
-## Project Structure
+## 🔑 Key Findings
+
+| # | Finding | Impact |
+|---|---------|--------|
+| 1 | 🔴 West region = **32% of sales** but only **18% of profit** | Technology discounting eroding margins |
+| 2 | 💰 Discount cap at 20% in West/Technology | **$18K projected annual profit recovery** |
+| 3 | 📉 Tables & Bookcases are **loss-making** sub-categories | Negative margin in Furniture |
+| 4 | ⭐ Home Office segment has **highest profit margin %** | Underinvested vs Consumer/Corporate |
+| 5 | 📅 Q4 drives **peak sales** consistently | Q1/Q2 need targeted promotions |
+
+---
+
+## 📁 Project Structure
 
 ```
 ecommerce-sales-analysis/
-│
-├── data/
-│   └── superstore_sales.csv          # Source dataset (9,994 rows)
-│
-├── sql/
-│   ├── 01_revenue_by_region.sql      # Sales & profit by region with share %
-│   ├── 02_top_products.sql           # Top 10 products by sales and profit
-│   ├── 03_monthly_trends.sql         # Monthly trends with MoM growth
-│   ├── 04_category_performance.sql   # Category/sub-category profitability
-│   ├── 05_customer_segments.sql      # Consumer vs Corporate vs Home Office
-│   └── 06_discount_impact.sql        # Discount impact + $18K recovery model
-│
-├── docs/
-│   └── BRD_ECommerce_Sales_Analysis.docx   # Full Business Requirements Document
-│
-├── powerbi/
-│   └── DASHBOARD_GUIDE.md            # Step-by-step Power BI build guide (DAX included)
-│
-└── README.md
+├── 📂 sql/
+│   ├── 01_revenue_by_region.sql       ← Sales & profit by region
+│   ├── 02_top_products.sql            ← Top 10 products
+│   ├── 03_monthly_trends.sql          ← Monthly trends + MoM growth
+│   ├── 04_category_performance.sql    ← Category profitability
+│   ├── 05_customer_segments.sql       ← Segment analysis
+│   └── 06_discount_impact.sql         ← Discount impact + $18K model
+├── 📂 docs/
+│   └── BRD_ECommerce_Sales_Analysis.docx
+├── 📄 superstore_sales.csv            ← Source dataset (9,994 rows)
+├── 📄 DASHBOARD_GUIDE.md              ← Power BI build guide + DAX
+└── 📄 README.md
 ```
 
 ---
 
-## Business Requirements Document (BRD)
+## 🗂️ BA Deliverables
 
-The full BRD is in `docs/BRD_ECommerce_Sales_Analysis.docx` and covers:
-
-- Business problem statement and objectives
-- Stakeholder matrix (Sales Manager, Marketing Head, Finance)
-- AS-IS and TO-BE process mapping
-- User stories with acceptance criteria for all 3 stakeholders
-- Functional requirements table (FR-01 to FR-07)
-- Key findings and recommendations
-- Stakeholder sign-off section
+| Deliverable | Description |
+|-------------|-------------|
+| 📋 **BRD** | Business Requirements Document with stakeholder matrix, user stories, AS-IS/TO-BE process mapping |
+| 👤 **User Stories** | 3 stakeholders — Sales Manager, Marketing Head, Finance |
+| ✅ **Acceptance Criteria** | Defined for all 3 user stories |
+| 🔄 **Process Mapping** | AS-IS vs TO-BE workflow redesign (BPMN) |
+| 🔍 **SQL Queries** | 6 queries covering region, product, segment, trend & discount analysis |
+| 📊 **Power BI Dashboard** | 3-page dashboard with DAX measures and cross-page slicers |
 
 ---
 
-## SQL Queries
+## 💡 SQL Highlights
 
-All 6 queries are written in standard SQL (compatible with SQLite, PostgreSQL, BigQuery).
-
-| File | Business Question |
-|------|------------------|
-| `01_revenue_by_region.sql` | Which regions drive the most sales and profit? |
-| `02_top_products.sql` | Which products are top sellers — and are they profitable? |
-| `03_monthly_trends.sql` | How do sales trend over time? Any seasonality? |
-| `04_category_performance.sql` | Which sub-categories are loss-making? |
-| `05_customer_segments.sql` | Which customer segments are most valuable? |
-| `06_discount_impact.sql` | How do discounts erode profit? What does a cap recover? |
-
-### Running the SQL (SQLite example)
-
-```bash
-# Install SQLite if needed
-# Load the dataset
-sqlite3 analysis.db
-.mode csv
-.import data/superstore_sales.csv superstore_sales
-
-# Run a query
-.read sql/01_revenue_by_region.sql
+**Discount Impact Analysis — West Region Technology**
+```sql
+CASE
+    WHEN Discount = 0        THEN '0% (No Discount)'
+    WHEN Discount <= 0.10    THEN '1-10%'
+    WHEN Discount <= 0.20    THEN '11-20%'
+    WHEN Discount <= 0.30    THEN '21-30%'
+    ELSE                          '30%+'
+END AS discount_bracket
 ```
+> Orders with 30%+ discounts show **negative profit margins** across all regions.
 
 ---
 
-## Power BI Dashboard
+## 🛠️ Tools & Skills
 
-The 3-page dashboard is documented in `powerbi/DASHBOARD_GUIDE.md` with full DAX measures,
-visual specifications, and formatting instructions.
-
-**Dashboard Pages:**
-1. **Sales Overview** — KPI cards, regional bar chart, monthly trend line, category donut
-2. **Product & Segment Analysis** — Sub-category profitability, segment comparison, scatter plot
-3. **Discount Impact** — Discount bracket analysis, $18K recovery callout, West/Tech deep-dive
-
-**Cross-page slicers:** Year · Region · Category
+| Area | Details |
+|------|---------|
+| **BA Skills** | Requirements Gathering · BRD · User Stories · Gap Analysis · AS-IS/TO-BE · UAT |
+| **SQL** | Joins · CTEs · Window Functions · CASE · Aggregations |
+| **Visualisation** | Power BI · DAX measures · KPI Cards · Cross-page slicers |
+| **Data** | Excel · SQLite · CSV cleaning |
+| **Methods** | Agile · BPMN · Stakeholder Management |
 
 ---
 
-## Key Findings
-
-| Finding | Impact | Recommendation |
-|---------|--------|----------------|
-| West = 32% sales, 18% profit | ~$18K annual profit leakage | Cap Technology discounts at 20% in West |
-| Tables & Bookcases are loss-making | Drags Furniture margin negative | Review pricing & discount policy |
-| Home Office has highest margin % | Underinvested segment | Increase targeted marketing spend |
-| Q4 drives peak sales consistently | Q1/Q2 significantly slower | Plan Q1/Q2 promotional campaigns |
-
----
-
-## Tools & Skills Demonstrated
-
-| Area | Tools / Skills |
-|------|---------------|
-| **Requirements** | BRD, User Stories, Acceptance Criteria, BPMN (AS-IS/TO-BE) |
-| **Data Analysis** | SQL (Joins, CTEs, Window Functions, CASE), Excel |
-| **Visualisation** | Power BI (DAX measures, KPI cards, cross-page slicers) |
-| **Project Management** | JIRA-style user story format, stakeholder mapping |
-| **Documentation** | Business Requirements Document, process mapping |
-
----
-
-## About
+## 👤 About
 
 **Anurag Das** — Business Analyst  
 📧 dasanurag97@gmail.com  
