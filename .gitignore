@@ -1,0 +1,15 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Power BI temp files
+*.pbix.lock
+
+# Python
+__pycache__/
+*.pyc
+.env
+
+# Excel temp files
+~$*.xlsx
+~$*.xls
